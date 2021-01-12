@@ -1,0 +1,27 @@
+nav{
+    width: auto;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(91, 239, 253);
+    margin-bottom: 20px;
+}
+.container{
+
+}
+.card{
+    padding: 5px 5px;
+}
+.card-header{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+input{
+    margin: 5px 5px;
+}
+
+#kanban{
+    margin: 10px 10px;
+}
