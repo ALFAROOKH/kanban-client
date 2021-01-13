@@ -7,11 +7,10 @@ nav{
     background-color: rgb(91, 239, 253);
     margin-bottom: 20px;
 }
-.container{
 
-}
 .card{
     padding: 5px 5px;
+    margin-top: 5px;
 }
 .card-header{
     margin-top: 10px;
@@ -25,3 +24,4 @@ input{
 #kanban{
     margin: 10px 10px;
 }
+

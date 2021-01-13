@@ -11,95 +11,171 @@
 </head>
 
 <body class="container" style="background-color: deepskyblue;">
-    <nav>
-        <div>
-            <h1>KANBAN</h1>
+    <div id="app">
+        <nav>
+            <div>
+                <h1>KANBAN</h1>
+            </div>
+            <div v-show="page == 'kanban'">
+                <button class="btn btn-primary" @click="show('add-task')">New Task</button>
+                <button class="btn btn-danger" @click="logout">Logout</button>
+            </div>
+        </nav>
+
+        <div v-if="page == 'kanban'" class="container" id="kanban">
+            <div class="row">
+                <div style="margin-right: 10px;" class="col card">
+                    <div class="card-header">
+                        <h3>Backlog</h3>
+                    </div>
+                    <div class="card" v-for="item in task">
+                        <b>{{ item.title }}</b>
+                        <div>
+                            <button class="btn btn-success" @click="show('edit-task')">Edit</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-right: 10px;" class="col card">
+                    <div class="card-header">
+                        <h3>Todo</h3>
+                    </div>
+                    <div class="card">
+                        <b>alohaa!</b>
+                    </div>
+                </div>
+                <div class="col card">
+                    <div class="card-header">
+                        <h3>Doing</h3>
+                    </div>
+                    <div class="card">
+                        <b>alohaa!</b>
+                    </div>
+                </div>
+                <div style="margin-left: 10px;" class="col card">
+                    <div class="card-header">
+                        <h3>Done</h3>
+                    </div>
+                    <div class="card" style="padding: 5px 5px;">
+                        <b>alohaa!</b>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <button class="btn btn-primary">New Task</button>
-            <button class="btn btn-danger">Logout</button>
-        </div>
-    </nav>
 
-    <div class="container" id="kanban">
-        <div class="row">
-            <div style="margin-right: 10px;" class="col card">
-                <div class="card-header">
-                    <h3>Backlog</h3>
-                </div>
-                <div class="card">
-                    alohaa!
-                </div>
+        <div v-else-if="page == 'register'" class="card" style="margin-left: 316px; max-width: 500px;">
+            <div class="card-header">
+                <h2>Sign Up</h2>
             </div>
-            <div style="margin-right: 10px;" class="col card">
-                <div class="card-header">
-                    <h3>Todo</h3>
+            <form @submit.prevent="register">
+                <div>
+                    <label for="username">Username:</label>
+                    <input v-model="regist.username" type="text" id="SUusername" required placeholder="Username">
                 </div>
-                <div class="card">
-                    alohaa!
+                <div>
+                    <label for="email">Email address:</label>
+                    <input v-model="regist.email" type="email" id="SUemail" required placeholder="Enter email">
                 </div>
-            </div>
-            <div class="col card">
-                <div class="card-header">
-                    <h3>Doing</h3>
+                <div>
+                    <label for="password">Password:</label>
+                    <input v-model="regist.password" type="password" id="SUpassword" placeholder="Password" required>
                 </div>
-                <div class="card">
-                    alohaa!
+                <div>
+                    <button type="submit" class="btn btn-success" id="btn-signup">Sign Up</button>
                 </div>
-            </div>
-            <div style="margin-left: 10px;" class="col card">
-                <div class="card-header">
-                    <h3>Done</h3>
-                </div>
-                <div class="card" style="padding: 5px 5px;">
-                    <p>suhushxushxushxushxuhxsushxushxusxhushuxhsuxh</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card" style="margin-left: 316px; max-width: 500px;">
-        <div class="card-header"><h2>Sign Up</h2></div>
-        <form id="form-signup">
+            </form>
             <div>
-                <label for="username">Username:</label>
-                <input type="text" id="SUusername"  required placeholder="Username">
-            </div>
-            <div>
-                <label for="email">Email address:</label>
-                <input type="email" id="SUemail" required placeholder="Enter email">
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="SUpassword" placeholder="Password" required>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-success" id="btn-signup">Sign Up</button>
-                <a href="#" onclick="">I have an Account</a><br>
-                <p>or</p>
-
-            </div>
-        </form>
-    </div>
-
-    <div id="sign-in" class="text-dark card" style="margin-left: 316px; max-width: 500px;">
-        <div class="card-header"><h2>Sign In</h2></div>
-        <form id="form-signin" >
-            <div>
-                <label for="SIemail">Email address:</label>
-                <input type="email" id="SIemail" required placeholder="Enter email">
-            </div>
-            <div>
-                <label for="SIpassword">Password:</label>
-                <input type="password" id="SIpassword" required placeholder="Password">
-            </div>
-            <div>
-                <button class="btn btn-success " type="submit">Sign In</button>
-                <a href="#" onclick="signUp(event)">Don't have an Account?</a>
+                <button style="margin-top: 5px;" class="btn btn-primary" @click="show('login')">I have an
+                    Account</button><br>
                 <p>or</p>
             </div>
-        </form>
+        </div>
+
+        <div v-else-if="page == 'login'" id="sign-in" class="text-dark card"
+            style="margin-left: 316px; max-width: 500px;">
+            <div class="card-header">
+                <h2>Sign In</h2>
+            </div>
+            <form @submit.prevent="login">
+                <div>
+                    <label for="SIemail">Email address:</label>
+                    <input v-model="dataLogin.email" type="email" id="SIemail" required placeholder="Enter email">
+                </div>
+                <div>
+                    <label for="SIpassword">Password:</label>
+                    <input v-model="dataLogin.password" type="password" id="SIpassword" required placeholder="Password">
+                </div>
+                <div>
+                    <button class="btn btn-success" type="submit">Sign In</button>
+                </div>
+            </form>
+            <div>
+                <button style="margin-top: 5px;" class="btn btn-primary" @click="show('register')">
+                    Don't have an Account?</button><br>
+                <p>or</p>
+            </div>
+        </div>
+
+        <div v-else-if="page == 'add-task'" class="text-dark card" style="margin-left: 316px; max-width: 500px;">
+            <div class="card-header">
+                <h2>Add Task</h2>
+            </div>
+            <form @submit.prevent="add">
+                <div>
+                    <label for="title">Title:</label>
+                    <input v-model="addTask.title" type="text" id="title" required placeholder="New Task..">
+                </div>
+                <div>
+                    <label for="title">Category:</label>
+                    <select v-model="addTask.category" class="form-select" >
+                        <option selected>--Select Category--</option>
+                        <option value="backlog">Backlog</option>
+                        <option value="todo">Todo</option>
+                        <option value="doing">Doing</option>
+                        <option value="done">Done</option>
+                    </select>
+                </div>
+
+
+                <div style="margin-top: 5px;">
+                    <button class="btn btn-success" type="submit">Sign In</button>
+                </div>
+            </form>
+        </div>
+
+        <div v-else-if="page == 'edit-task'" class="text-dark card" style="margin-left: 316px; max-width: 500px;">
+            <div class="card-header">
+                <h2>Edit Task</h2>
+            </div>
+            <form @submit.prevent="edit">
+                <div>
+                    <label for="title">Title:</label>
+                    <input v-model="editTask" type="text" id="title" required placeholder="New Task..">
+                </div>
+                <div>
+                    <label for="title">Category:</label>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+
+
+                <div style="margin-top: 5px;">
+                    <button class="btn btn-success" type="submit">Edit</button>
+                </div>
+            </form>
+        </div>
+
+
+
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 
 </html>
